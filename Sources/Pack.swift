@@ -145,7 +145,7 @@ public func pack(value: MessagePackValue) -> Data {
         let count = UInt32(dict.count)
         precondition(count < 0xffff_ffff)
 
-        var prefix: Data
+        let prefix: Data
         switch count {
         case let count where count <= 0xe:
             prefix = [0x80 | numericCast(count)]
@@ -162,7 +162,7 @@ public func pack(value: MessagePackValue) -> Data {
         precondition(count <= 0xffff_ffff)
 
         let unsignedType = UInt8(bitPattern: type)
-        var prefix: Data
+        let prefix: Data
         switch count {
         case 1:
             prefix = [0xd4, unsignedType]
