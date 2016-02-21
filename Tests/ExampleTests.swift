@@ -1,5 +1,6 @@
 @testable import MessagePack
 import XCTest
+import Data
 
 class ExampleTests: XCTestCase {
     let example: MessagePackValue = ["compact": true, "schema": 0]
@@ -41,7 +42,7 @@ class ExampleTests: XCTestCase {
 
     func testUnpackNSData() {
         let data = correctA.withUnsafeBufferPointer { buffer in
-            return NSData(bytes: buffer.baseAddress, length: buffer.count)
+            return Data(pointer: buffer.baseAddress, length: buffer.count)
         }
 
         let unpacked = try? unpack(data)
@@ -51,47 +52,7 @@ class ExampleTests: XCTestCase {
     func testUnpackInsufficientNSData() {
         let bytes: Data = [0x82, 0xa7, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x63, 0x74, 0xc3, 0xa6, 0x73, 0x63, 0x68, 0x65, 0x6d]
         let data = bytes.withUnsafeBufferPointer { buffer in
-            return NSData(bytes: buffer.baseAddress, length: buffer.count)
-        }
-
-        do {
-            try unpack(data)
-            XCTFail("Expected unpack to throw")
-        } catch {
-            XCTAssertEqual(error as? MessagePackError, .InsufficientData)
-        }
-    }
-
-    func testUnpackDispatchData() {
-        let data = correctA.withUnsafeBufferPointer { buffer in
-            return dispatch_data_create(buffer.baseAddress, buffer.count, nil, nil)
-        }
-
-        let unpacked = try? unpack(data)
-        XCTAssertEqual(unpacked, example)
-    }
-
-    func testUnpackDiscontinuousDispatchData() {
-        let bytesA: Data = [0x82, 0xa7, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x63]
-        let dataA = bytesA.withUnsafeBufferPointer { buffer in
-            return dispatch_data_create(buffer.baseAddress, buffer.count, nil, nil)
-        }
-
-        let bytesB: Data = [0x74, 0xc3, 0xa6, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x00]
-        let dataB = bytesB.withUnsafeBufferPointer { buffer in
-            return dispatch_data_create(buffer.baseAddress, buffer.count, nil, nil)
-        }
-
-        let data = dispatch_data_create_concat(dataA, dataB)
-
-        let unpacked = try? unpack(data)
-        XCTAssertEqual(unpacked, example)
-    }
-
-    func testUnpackInsufficientDispatchData() {
-        let bytes: Data = [0x82, 0xa7, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x63, 0x74, 0xc3, 0xa6, 0x73, 0x63, 0x68, 0x65, 0x6d]
-        let data = bytes.withUnsafeBufferPointer { buffer in
-            return dispatch_data_create(buffer.baseAddress, buffer.count, nil, nil)
+            return Data(pointer: buffer.baseAddress, length: buffer.count)
         }
 
         do {

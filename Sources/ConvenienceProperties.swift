@@ -1,3 +1,5 @@
+import Data
+
 extension MessagePackValue {
     /// The number of elements in the `.Array` or `.Map`, `nil` otherwise.
     public var count: Swift.Int? {

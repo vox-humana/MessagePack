@@ -1,3 +1,5 @@
+import Data
+
 extension MessagePackValue {
     public init() {
         self = .Nil

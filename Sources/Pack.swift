@@ -1,3 +1,5 @@
+import Data
+
 /// Packs an integer into a byte array.
 ///
 /// - parameter value: The integer to split.
@@ -6,9 +8,10 @@
 /// - returns: An byte array representation.
 func packInteger(value: UInt64, parts: Int) -> Data {
     precondition(parts > 0)
-    return (8 * (parts - 1)).stride(through: 0, by: -8).map { shift in
+    let bytes = (8 * (parts - 1)).stride(through: 0, by: -8).map { shift in
         return Byte(truncatingBitPattern: value >> numericCast(shift))
     }
+    return Data(bytes)
 }
 
 /// Packs an unsigned integer into an array of bytes.
@@ -104,7 +107,7 @@ public func pack(value: MessagePackValue) -> Data {
             prefix = [0xdb] + packInteger(numericCast(count), parts: 4)
         }
 
-        return prefix + utf8
+        return prefix + Data(utf8)
 
     case let .Binary(data):
         let count = UInt32(data.count)
@@ -136,7 +139,7 @@ public func pack(value: MessagePackValue) -> Data {
             prefix = [0xdd] + packInteger(numericCast(count), parts: 4)
         }
 
-        return prefix + array.flatMap(pack)
+        return prefix + Data(array.flatMap(pack))
 
     case let .Map(dict):
         let count = UInt32(dict.count)
@@ -152,7 +155,7 @@ public func pack(value: MessagePackValue) -> Data {
             prefix = [0xdf] + packInteger(numericCast(count), parts: 4)
         }
 
-        return prefix + dict.flatMap { [$0, $1] }.flatMap(pack)
+        return prefix + Data(dict.flatMap { [$0, $1] }.flatMap(pack))
 
     case let .Extended(type, data):
         let count = UInt32(data.count)

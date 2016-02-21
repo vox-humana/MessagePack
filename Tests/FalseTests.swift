@@ -1,5 +1,6 @@
 @testable import MessagePack
 import XCTest
+import Data
 
 class FalseTests: XCTestCase {
     let packed: Data = [0xc2]

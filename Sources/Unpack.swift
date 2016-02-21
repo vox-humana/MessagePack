@@ -1,3 +1,5 @@
+import Data
+
 /// Joins bytes from the generator to form an integer.
 ///
 /// - parameter generator: The input generator to unpack.
@@ -29,13 +31,13 @@ func unpackString<G: GeneratorType where G.Element == Byte>(inout generator: G, 
 
     for _ in 0..<length {
         if let byte = generator.next() {
-            bytes.append(byte)
+            bytes.appendByte(byte)
         } else {
             throw MessagePackError.InsufficientData
         }
     }
 
-    if let result = String(bytes: bytes, encoding: NSUTF8StringEncoding) {
+    if let result = try? String(data: bytes) {
         return result
     } else {
         throw MessagePackError.InvalidData
@@ -54,7 +56,7 @@ func unpackData<G: GeneratorType where G.Element == Byte>(inout generator: G, le
 
     for _ in 0..<length {
         if let byte = generator.next() {
-            data.append(byte)
+            data.appendByte(byte)
         } else {
             throw MessagePackError.InsufficientData
         }
@@ -275,19 +277,8 @@ public func unpack<G: GeneratorType where G.Element == Byte>(inout generator: G,
 /// - parameter data: The data to unpack.
 ///
 /// - returns: The contained `MessagePackValue`.
-public func unpack(data: NSData, compatibility: Bool = false) throws -> MessagePackValue {
-    var generator = NSDataGenerator(data: data)
-    return try unpack(&generator, compatibility: compatibility)
-}
-
-/// Unpacks a data object in the form of `dispatch_data_t` into a `MessagePackValue`.
-///
-/// - parameter data: The data to unpack.
-///
-/// - returns: The contained `MessagePackValue`.
-public func unpack(data: dispatch_data_t, compatibility: Bool = false) throws -> MessagePackValue {
-    var generator = DispatchDataGenerator(data: data)
-    return try unpack(&generator, compatibility: compatibility)
+public func unpack(data: Data, compatibility: Bool = false) throws -> MessagePackValue {
+    return try unpack(data.generate(), compatibility: compatibility)
 }
 
 /// Unpacks a data object in the form of a byte array into a `MessagePackValue`.

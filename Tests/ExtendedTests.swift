@@ -1,5 +1,6 @@
 @testable import MessagePack
 import XCTest
+import Data
 
 class ExtendedTests: XCTestCase {
     func testPackFixext1() {

@@ -1,5 +1,6 @@
 @testable import MessagePack
 import XCTest
+import Data
 
 class ArrayTests: XCTestCase {
     func testLiteralConversion() {

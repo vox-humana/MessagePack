@@ -1,5 +1,6 @@
 @testable import MessagePack
 import XCTest
+import Data
 
 func string(length: Int, repeatedValue: String = "*") -> String {
     var str = ""
@@ -44,7 +45,7 @@ class StringTests: XCTestCase {
 
     func testPackStr8() {
         let str = string(0x20)
-        XCTAssertEqual(pack(.String(str)), [0xd9, 0x20] + data(str))
+        XCTAssertEqual(pack(.String(str)), Data([0xd9, 0x20]) + Data(data(str)))
     }
 
     func testUnpackStr8() {
@@ -57,7 +58,7 @@ class StringTests: XCTestCase {
 
     func testPackStr16() {
         let str = string(0x1000)
-        XCTAssertEqual(pack(.String(str)), [0xda, 0x10, 0x00] + data(str))
+        XCTAssertEqual(pack(.String(str)), Data([0xda, 0x10, 0x00]) + Data(data(str)))
     }
 
     func testUnpackStr16() {
@@ -70,7 +71,7 @@ class StringTests: XCTestCase {
 
     func testPackStr32() {
         let str = string(0x10000)
-        XCTAssertEqual(pack(.String(str)), [0xdb, 0x00, 0x01, 0x00, 0x00] + data(str))
+        XCTAssertEqual(pack(.String(str)), Data([0xdb, 0x00, 0x01, 0x00, 0x00]) + Data(data(str)))
     }
 
     func testUnpackStr32() {
