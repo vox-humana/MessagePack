@@ -185,3 +185,31 @@ public func pack(value: MessagePackValue) -> Data {
         return prefix + data
     }
 }
+
+/// Packs an array of MessagePackValue into an array of bytes.
+///
+/// - parameter array: The array to encode
+///
+/// - returns: A MessagePack byte representation.
+public func pack(array: [MessagePackValue]) -> Data {
+    return pack(.Array(array))
+}
+
+/// Packs a dictionary of MessagePackValue into an array of bytes.
+///
+/// - parameter dictionary: The dictionary to encode
+///
+/// - returns: A MessagePack byte representation.
+public func pack(dictionary: [MessagePackValue : MessagePackValue]) -> Data {
+    return pack(.Map(dictionary))
+}
+
+/// Packs an array of bytes with custum type flag into an array of bytes.
+///
+/// - parameter type: The type of data
+/// - parameter data: The data to encode
+///
+/// - returns: A MessagePack byte representation.
+public func pack(type: Int8, data: Data) -> Data {
+    return pack(.Extended(type, data))
+}
