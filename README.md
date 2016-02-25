@@ -1,12 +1,12 @@
 MessagePack
 ==========
 
-[![Zewo 0.2](https://img.shields.io/badge/Zewo-0.2-FE3762.svg?style=flat)](http://new.zewo.io)
-[![Swift 2.2](https://img.shields.io/badge/Swift-2.2-orange.svg?style=flat)](https://swift.org)
-[![Platform Linux](https://img.shields.io/badge/Platform-Linux-lightgray.svg?style=flat)](https://swift.org)
-[![Travis](https://travis-ci.org/antonmes/MessagePack.svg?style=flat)](https://travis-ci.org/antonmes/MessagePack)
-[![License MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)](https://tldrlegal.com/license/mit-license)
-[![Slack Status](https://zewo-slackin.herokuapp.com/badge.svg)](http://slack.zewo.io)
+[![Travis][travis-image]][travis-url]
+[![Zewo][zewo-image]][zewo-url]
+[![Swift][swift-badge]][swift-url]
+[![Platform][platform-badge]][platform-url]
+[![License][mit-badge]][mit-url]
+[![Slack][slack-badge]][slack-url]
 
 **MessagePack** is an efficient binary serialization format. It lets you exchange data among multiple languages like JSON. But it's faster and smaller. Small integers are encoded into a single byte, and typical short strings require only one extra byte in addition to the strings themselves.
 
@@ -42,7 +42,7 @@ let package = Package(
 
 ## Community
 
-[![Slack](http://s13.postimg.org/ybwy92ktf/Slack.png)](http://slack.zewo.io)
+[![Slack][slack-image]][slack-url]
 
 Join us on [Slack](http://slack.zewo.io).
 
@@ -50,3 +50,17 @@ License
 -------
 
 **MessagePack** is released under the MIT license. See LICENSE for details.
+
+[swift-badge]: https://img.shields.io/badge/Swift-2.2-orange.svg?style=flat
+[swift-url]: https://swift.org
+[platform-badge]: https://img.shields.io/badge/Platform-Linux-lightgray.svg?style=flat
+[platform-url]: https://swift.org
+[mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg?style=flat
+[mit-url]: https://tldrlegal.com/license/mit-license
+[slack-image]: http://s13.postimg.org/ybwy92ktf/Slack.png
+[slack-badge]: https://zewo-slackin.herokuapp.com/badge.svg
+[slack-url]: http://slack.zewo.io
+[travis-image]: https://travis-ci.org/antonmes/MessagePack.svg?branch=master
+[travis-url]: https://travis-ci.org/antonmes/MessagePack
+[zewo-image]: https://img.shields.io/badge/Zewo-0.2-FE3762.svg?style=flat
+[zewo-url]: https://img.shields.io/badge/Zewo-0.2-FE3762.svg?style=flat
