@@ -7,6 +7,9 @@ compiler:
   
 os:
   - linux
+  - osx
+
+osx_image: xcode7.3
 
 env:
   - TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-02-08-a"
@@ -21,8 +24,9 @@ before_install:
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
         wget https://swift.org/builds/development/xcode/${TOOLCHAIN}/${TOOLCHAIN}-osx.pkg;
-        sudo installer -pkg ${TRAVIS_BUILD_DIR}/${TOOLCHAIN}-osx.pkg -target ${TRAVIS_BUILD_DIR};
-        export PATH=${TRAVIS_BUILD_DIR}/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin:"${PATH}";
+        pkgutil --expand ${TRAVIS_BUILD_DIR}/${TOOLCHAIN}-osx.pkg ${TRAVIS_BUILD_DIR}/${TOOLCHAIN}-osx.unpkg;
+        cat ${TRAVIS_BUILD_DIR}/${TOOLCHAIN}-osx.unpkg/${TOOLCHAIN}-osx-package.pkg/Payload | gunzip -dc |cpio -i;
+        export PATH=${TRAVIS_BUILD_DIR}/usr/bin:"${PATH}";
     fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
         wget https://swift.org/builds/development/ubuntu1404/${TOOLCHAIN}/${TOOLCHAIN}-ubuntu14.04.tar.gz;
