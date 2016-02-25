@@ -69,28 +69,17 @@ public func ==(lhs: MessagePackValue, rhs: MessagePackValue) -> Bool {
 extension MessagePackValue: CustomStringConvertible {
     public var description: Swift.String {
         switch self {
-        case .Nil:
-            return "Nil"
-        case let .Bool(value):
-            return "Bool(\(value))"
-        case let .Int(value):
-            return "Int(\(value))"
-        case let .UInt(value):
-            return "UInt(\(value))"
-        case let .Float(value):
-            return "Float(\(value))"
-        case let .Double(value):
-            return "Double(\(value))"
-        case let .String(string):
-            return "String(\(string))"
-        case let .Binary(data):
-            return "Data(\(dataDescription(data)))"
-        case let .Array(array):
-            return "Array(\(array.description))"
-        case let .Map(dict):
-            return "Map(\(dict.description))"
-        case let .Extended(type, data):
-            return "Extended(\(type), \(dataDescription(data)))"
+        case .Nil: return "nil"
+        case let .Bool(value): return value.description
+        case let .Int(value): return value.description
+        case let .UInt(value): return value.description
+        case let .Float(value): return value.description
+        case let .Double(value): return value.description
+        case let .String(string): return "\"\(string)\""
+        case let .Binary(data): return dataDescription(data)
+        case let .Array(array): return array.description
+        case let .Map(dict): return dict.description
+        case let .Extended(type, data): return "Extended(\(type), \(dataDescription(data)))" //TODO: remove description?
         }
     }
 }
