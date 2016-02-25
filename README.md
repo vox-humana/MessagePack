@@ -63,4 +63,4 @@ License
 [travis-image]: https://travis-ci.org/antonmes/MessagePack.svg?branch=master
 [travis-url]: https://travis-ci.org/antonmes/MessagePack
 [zewo-image]: https://img.shields.io/badge/Zewo-0.2-FE3762.svg?style=flat
-[zewo-url]: https://img.shields.io/badge/Zewo-0.2-FE3762.svg?style=flat
+[zewo-url]: http://new.zewo.io
