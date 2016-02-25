@@ -15,10 +15,23 @@ env:
   - TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-02-08-a"
   
 before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+        brew update;
+        brew install openssl;
+        brew link openssl --force;
+        brew tap zewo/tap;
+        brew install libvenice;
+    fi 
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
         sudo apt-get install -y clang-3.6 libicu-dev;
         sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-3.6 100;
         sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-3.6 100;
+        
+        apt-get install libssl-dev
+
+        echo "deb [trusted=yes] http://apt.zewo.io/deb ./" | sudo tee --append /etc/apt/sources.list;
+        sudo apt-get update;
+        sudo apt-get install libvenice;
     fi
 
 install:
