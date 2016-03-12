@@ -51,9 +51,9 @@ License
 
 **MessagePack** is released under the MIT license. See LICENSE for details.
 
-[swift-badge]: https://img.shields.io/badge/Swift-2.2-orange.svg?style=flat
+[swift-badge]: https://img.shields.io/badge/Swift-3.0-orange.svg?style=flat
 [swift-url]: https://swift.org
-[platform-badge]: https://img.shields.io/badge/Platform-Linux-lightgray.svg?style=flat
+[platform-badge]: https://img.shields.io/badge/Platform-Mac-&-Linux-lightgray.svg?style=flat
 [platform-url]: https://swift.org
 [mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg?style=flat
 [mit-url]: https://tldrlegal.com/license/mit-license
@@ -62,5 +62,5 @@ License
 [slack-url]: http://slack.zewo.io
 [travis-image]: https://travis-ci.org/antonmes/MessagePack.svg?branch=master
 [travis-url]: https://travis-ci.org/antonmes/MessagePack
-[zewo-image]: https://img.shields.io/badge/Zewo-0.2-FE3762.svg?style=flat
+[zewo-image]: https://img.shields.io/badge/Zewo-0.3-FE3762.svg?style=flat
 [zewo-url]: http://new.zewo.io
