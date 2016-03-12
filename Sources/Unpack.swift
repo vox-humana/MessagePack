@@ -6,7 +6,7 @@ import Data
 /// - parameter size: The size of the integer.
 ///
 /// - returns: An integer representation of `size` bytes of data.
-func unpackInteger<G: GeneratorType where G.Element == Byte>(inout generator: G, size: Int) throws -> UInt64 {
+func unpackInteger<G: GeneratorType where G.Element == Byte>(generator: inout G, size: Int) throws -> UInt64 {
     var value: UInt64 = 0
     for _ in 0..<size {
         if let byte = generator.next() {
@@ -25,7 +25,7 @@ func unpackInteger<G: GeneratorType where G.Element == Byte>(inout generator: G,
 /// - parameter length: The length of the string.
 ///
 /// - returns: A string representation of `size` bytes of data.
-func unpackString<G: GeneratorType where G.Element == Byte>(inout generator: G, length: Int) throws -> String {
+func unpackString<G: GeneratorType where G.Element == Byte>(generator: inout G, length: Int) throws -> String {
     var bytes = Data()
     bytes.reserveCapacity(length)
 
@@ -50,7 +50,7 @@ func unpackString<G: GeneratorType where G.Element == Byte>(inout generator: G, 
 /// - parameter length: The length of the data.
 ///
 /// - returns: A subsection of data representing `size` bytes.
-func unpackData<G: GeneratorType where G.Element == Byte>(inout generator: G, length: Int) throws -> Data {
+func unpackData<G: GeneratorType where G.Element == Byte>(generator: inout G, length: Int) throws -> Data {
     var data = Data()
     data.reserveCapacity(length)
 
@@ -71,7 +71,7 @@ func unpackData<G: GeneratorType where G.Element == Byte>(inout generator: G, le
 /// - parameter count: The number of elements to unpack.
 ///
 /// - returns: An array of `count` elements.
-func unpackArray<G: GeneratorType where G.Element == Byte>(inout generator: G, count: Int, compatibility: Bool) throws -> [MessagePackValue] {
+func unpackArray<G: GeneratorType where G.Element == Byte>(generator: inout G, count: Int, compatibility: Bool) throws -> [MessagePackValue] {
     var values = [MessagePackValue]()
     values.reserveCapacity(count)
 
@@ -89,7 +89,7 @@ func unpackArray<G: GeneratorType where G.Element == Byte>(inout generator: G, c
 /// - parameter count: The number of elements to unpack.
 ///
 /// - returns: An dictionary of `count` entries.
-func unpackMap<G: GeneratorType where G.Element == Byte>(inout generator: G, count: Int, compatibility: Bool) throws -> [MessagePackValue : MessagePackValue] {
+func unpackMap<G: GeneratorType where G.Element == Byte>(generator: inout G, count: Int, compatibility: Bool) throws -> [MessagePackValue : MessagePackValue] {
     var dict = [MessagePackValue : MessagePackValue](minimumCapacity: count)
     var lastKey: MessagePackValue? = nil
 
@@ -111,7 +111,7 @@ func unpackMap<G: GeneratorType where G.Element == Byte>(inout generator: G, cou
 /// - parameter generator: The input generator to unpack.
 ///
 /// - returns: A `MessagePackValue`.
-public func unpack<G: GeneratorType where G.Element == Byte>(inout generator: G, compatibility: Bool = false) throws -> MessagePackValue {
+public func unpack<G: GeneratorType where G.Element == Byte>(generator: inout G, compatibility: Bool = false) throws -> MessagePackValue {
     if let value = generator.next() {
         switch value {
 
