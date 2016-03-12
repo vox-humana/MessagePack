@@ -12,7 +12,7 @@ os:
 osx_image: xcode7.3
 
 env:
-  - TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-02-08-a"
+  - TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-03-01-a"
   
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -48,4 +48,9 @@ install:
     fi
 
 script:
-  - swift build
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      swift build -Xcc -I/usr/local/include -Xlinker -L/usr/local/lib/;
+    fi 
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+        swift build;
+    fi
