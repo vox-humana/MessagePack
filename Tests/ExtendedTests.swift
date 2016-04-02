@@ -74,13 +74,13 @@ class ExtendedTests: XCTestCase {
     }
 
     func testPackExt8() {
-        let payload = Data(count: 7, repeatedValue: 0)
+        let payload = Data(repeating: 0, count: 7)
         let value = MessagePackValue.Extended(5, payload)
         XCTAssertEqual(pack(value), [0xc7, 0x07, 0x05] + payload)
     }
 
     func testUnpackExt8() {
-        let payload = Data(count: 7, repeatedValue: 0)
+        let payload = Data(repeating: 0, count: 7)
         let value = MessagePackValue.Extended(5, payload)
 
         let unpacked = try? unpack([0xc7, 0x07, 0x05] + payload)
@@ -88,13 +88,13 @@ class ExtendedTests: XCTestCase {
     }
 
     func testPackExt16() {
-        let payload = Data(count: 0x100, repeatedValue: 0)
+        let payload = Data(repeating: 0, count: 0x100)
         let value = MessagePackValue.Extended(5, payload)
         XCTAssertEqual(pack(value), [0xc8, 0x01, 0x00, 0x05] + payload)
     }
 
     func testUnpackExt16() {
-        let payload = Data(count: 0x100, repeatedValue: 0)
+        let payload = Data(repeating: 0, count: 0x100)
         let value = MessagePackValue.Extended(5, payload)
 
         let unpacked = try? unpack([0xc8, 0x01, 0x00, 0x05] + payload)
@@ -102,13 +102,13 @@ class ExtendedTests: XCTestCase {
     }
 
     func testPackExt32() {
-        let payload = Data(count: 0x10000, repeatedValue: 0)
+        let payload = Data(repeating: 0, count: 0x10000)
         let value = MessagePackValue.Extended(5, payload)
         XCTAssertEqual(pack(value), [0xc9, 0x00, 0x01, 0x00, 0x00, 0x05] + payload)
     }
 
     func testUnpackExt32() {
-        let payload = Data(count: 0x10000, repeatedValue: 0)
+        let payload = Data(repeating: 0, count: 0x10000)
         let value = MessagePackValue.Extended(5, payload)
 
         let unpacked = try? unpack([0xc9, 0x00, 0x01, 0x00, 0x00, 0x05] + payload)

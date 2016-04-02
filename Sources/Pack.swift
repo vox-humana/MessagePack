@@ -8,7 +8,7 @@ import Data
 /// - returns: An byte array representation.
 func packInteger(value: UInt64, parts: Int) -> Data {
     precondition(parts > 0)
-    let bytes = (8 * (parts - 1)).stride(through: 0, by: -8).map { shift in
+    let bytes = stride(from: (8 * (parts - 1)), through: 0, by: -8).map { shift in
         return Byte(truncatingBitPattern: value >> numericCast(shift))
     }
     return Data(bytes)
@@ -83,11 +83,11 @@ public func pack(value: MessagePackValue) -> Data {
         return packPositiveInteger(value)
 
     case let .Float(value):
-        let integerValue = unsafeBitCast(value, UInt32.self)
+        let integerValue = unsafeBitCast(value, to: UInt32.self)
         return [0xca] + packInteger(numericCast(integerValue), parts: 4)
 
     case let .Double(value):
-        let integerValue = unsafeBitCast(value, UInt64.self)
+        let integerValue = unsafeBitCast(value, to: UInt64.self)
         return [0xcb] + packInteger(integerValue, parts: 8)
 
     case let .String(string):

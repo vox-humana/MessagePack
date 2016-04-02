@@ -9,11 +9,11 @@ extension MessagePackValue {
         self = .Bool(value)
     }
 
-    public init<S: SignedIntegerType>(_ value: S) {
+    public init<S: SignedInteger>(_ value: S) {
         self = .Int(numericCast(value))
     }
 
-    public init<U: UnsignedIntegerType>(_ value: U) {
+    public init<U: UnsignedInteger>(_ value: U) {
         self = .UInt(numericCast(value))
     }
 

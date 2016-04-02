@@ -17,7 +17,7 @@ extension MessagePackValue {
     public subscript (i: Swift.Int) -> MessagePackValue? {
         switch self {
         case let .Array(array):
-            return i < array.count ? array[i] : Optional.None
+            return i < array.count ? array[i] : Optional.none
         default:
             return nil
         }

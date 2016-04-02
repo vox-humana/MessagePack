@@ -7,7 +7,7 @@ func string(length: Int, repeatedValue: String = "*") -> String {
     str.reserveCapacity(length * repeatedValue.characters.count)
 
     for _ in 0..<length {
-        str.appendContentsOf(repeatedValue)
+        str.append(repeatedValue)
     }
 
     return str

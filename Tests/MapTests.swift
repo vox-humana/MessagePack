@@ -23,21 +23,21 @@ func payload(count: Int) -> Data {
 func testPackMap(count: Int, prefix: Data) {
     let packed = pack(.Map(map(count)))
 
-    var generator = packed.generate()
+    var iterator = packed.makeIterator()
     for expectedByte in prefix {
-        let byte = generator.next()!
+        let byte = iterator.next()!
         XCTAssertEqual(byte, expectedByte)
     }
 
     var keys = Set<Int>()
     for _ in 0..<count {
-        let value = try! unpack(&generator)
+        let value = try! unpack(&iterator)
         let key: Int = numericCast(value.integerValue!)
 
         XCTAssertFalse(keys.contains(key))
         keys.insert(key)
 
-        let nilValue = try! unpack(&generator)
+        let nilValue = try! unpack(&iterator)
         XCTAssertEqual(nilValue, MessagePackValue.Nil)
     }
     
