@@ -60,7 +60,7 @@ License
 [slack-image]: http://s13.postimg.org/ybwy92ktf/Slack.png
 [slack-badge]: https://zewo-slackin.herokuapp.com/badge.svg
 [slack-url]: http://slack.zewo.io
-[travis-image]: https://travis-ci.org/antonmes/MessagePack.svg?branch=master
-[travis-url]: https://travis-ci.org/antonmes/MessagePack
+[travis-image]: https://travis-ci.org/Zewo/MessagePack.svg?branch=master
+[travis-url]: https://travis-ci.org/Zewo/MessagePack
 [zewo-image]: https://img.shields.io/badge/Zewo-0.3-FE3762.svg?style=flat
 [zewo-url]: http://zewo.io
