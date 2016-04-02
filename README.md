@@ -35,7 +35,7 @@ import PackageDescription
 
 let package = Package(
     dependencies: [
-        .Package(url: "https://github.com/antonmes/MessagePack.git", majorVersion: 0, minor: 2)
+        .Package(url: "https://github.com/Zewo/MessagePack.git", majorVersion: 0, minor: 4)
     ]
 )
 ```
@@ -62,5 +62,5 @@ License
 [slack-url]: http://slack.zewo.io
 [travis-image]: https://travis-ci.org/Zewo/MessagePack.svg?branch=master
 [travis-url]: https://travis-ci.org/Zewo/MessagePack
-[zewo-image]: https://img.shields.io/badge/Zewo-0.3-FE3762.svg?style=flat
+[zewo-image]: https://img.shields.io/badge/Zewo-0.4-FE3762.svg?style=flat
 [zewo-url]: http://zewo.io
