@@ -62,5 +62,5 @@ License
 [slack-url]: http://slack.zewo.io
 [travis-image]: https://travis-ci.org/Zewo/MessagePack.svg?branch=master
 [travis-url]: https://travis-ci.org/Zewo/MessagePack
-[zewo-image]: https://img.shields.io/badge/Zewo-0.4-FE3762.svg?style=flat
+[zewo-image]: https://img.shields.io/badge/Zewo-0.5-FE3762.svg?style=flat
 [zewo-url]: http://zewo.io
