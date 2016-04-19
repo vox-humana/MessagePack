@@ -1,6 +1,6 @@
 @testable import MessagePack
+@testable import C7
 import XCTest
-import Data
 
 class NilTests: XCTestCase {
     let packed: Data = [0xc0]

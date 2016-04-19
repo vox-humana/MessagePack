@@ -1,4 +1,4 @@
-import Data
+import C7
 
 /// Packs an integer into a byte array.
 ///
@@ -6,7 +6,7 @@ import Data
 /// - parameter parts: The number of bytes into which to split.
 ///
 /// - returns: An byte array representation.
-func packInteger(value: UInt64, parts: Int) -> Data {
+func packInteger(_ value: UInt64, parts: Int) -> Data {
     precondition(parts > 0)
     let bytes = stride(from: (8 * (parts - 1)), through: 0, by: -8).map { shift in
         return Byte(truncatingBitPattern: value >> numericCast(shift))
@@ -19,7 +19,7 @@ func packInteger(value: UInt64, parts: Int) -> Data {
 /// - parameter value: The value to encode
 ///
 /// - returns: A MessagePack byte representation.
-func packPositiveInteger(value: UInt64) -> Data {
+func packPositiveInteger(_ value: UInt64) -> Data {
     switch value {
     case let value where value <= 0x7f:
         return [Byte(truncatingBitPattern: value)]
@@ -39,7 +39,7 @@ func packPositiveInteger(value: UInt64) -> Data {
 /// - parameter value: The value to encode
 ///
 /// - returns: A MessagePack byte representation.
-func packNegativeInteger(value: Int64) -> Data {
+func packNegativeInteger(_ value: Int64) -> Data {
     precondition(value < 0)
 
     switch value {
@@ -64,7 +64,7 @@ func packNegativeInteger(value: Int64) -> Data {
 /// - parameter value: The value to encode
 ///
 /// - returns: A MessagePack byte representation.
-public func pack(value: MessagePackValue) -> Data {
+public func pack(_ value: MessagePackValue) -> Data {
     switch value {
     case .Nil:
         return [0xc0]
@@ -191,7 +191,7 @@ public func pack(value: MessagePackValue) -> Data {
 /// - parameter array: The array to encode
 ///
 /// - returns: A MessagePack byte representation.
-public func pack(array: [MessagePackValue]) -> Data {
+public func pack(_ array: [MessagePackValue]) -> Data {
     return pack(.Array(array))
 }
 
@@ -200,7 +200,7 @@ public func pack(array: [MessagePackValue]) -> Data {
 /// - parameter dictionary: The dictionary to encode
 ///
 /// - returns: A MessagePack byte representation.
-public func pack(dictionary: [MessagePackValue : MessagePackValue]) -> Data {
+public func pack(_ dictionary: [MessagePackValue : MessagePackValue]) -> Data {
     return pack(.Map(dictionary))
 }
 

@@ -1,6 +1,6 @@
 @testable import MessagePack
 import XCTest
-import Data
+import C7
 
 func map(count: Int) -> [MessagePackValue : MessagePackValue] {
     var dict = [MessagePackValue : MessagePackValue]()
@@ -21,7 +21,7 @@ func payload(count: Int) -> Data {
 }
 
 func testPackMap(count: Int, prefix: Data) {
-    let packed = pack(.Map(map(count)))
+    let packed = pack(.Map(map(count: count)))
 
     var iterator = packed.makeIterator()
     for expectedByte in prefix {
@@ -31,13 +31,13 @@ func testPackMap(count: Int, prefix: Data) {
 
     var keys = Set<Int>()
     for _ in 0..<count {
-        let value = try! unpack(&iterator)
+        let value = try! unpack(with: &iterator)
         let key: Int = numericCast(value.integerValue!)
 
         XCTAssertFalse(keys.contains(key))
         keys.insert(key)
 
-        let nilValue = try! unpack(&iterator)
+        let nilValue = try! unpack(with: &iterator)
         XCTAssertEqual(nilValue, MessagePackValue.Nil)
     }
     
@@ -63,20 +63,20 @@ class MapTests: XCTestCase {
     }
 
     func testPackMap16() {
-        testPackMap(16, prefix: [0xde, 0x00, 0x10])
+        testPackMap(count: 16, prefix: [0xde, 0x00, 0x10])
     }
 
     func testUnpackMap16() {
-        let unpacked = try? unpack([0xde, 0x00, 0x10] + payload(16))
-        XCTAssertEqual(unpacked, MessagePackValue.Map(map(16)))
+        let unpacked = try? unpack([0xde, 0x00, 0x10] + payload(count: 16))
+        XCTAssertEqual(unpacked, MessagePackValue.Map(map(count: 16)))
     }
 
     func testPackMap32() {
-        testPackMap(0x1_0000, prefix: [0xdf, 0x00, 0x01, 0x00, 0x00])
+        testPackMap(count: 0x1_0000, prefix: [0xdf, 0x00, 0x01, 0x00, 0x00])
     }
 
     func testUnpackMap32() {
-        let unpacked = try? unpack([0xdf, 0x00, 0x01, 0x00, 0x00] + payload(0x1_0000))
-        XCTAssertEqual(unpacked, MessagePackValue.Map(map(0x1_0000)))
+        let unpacked = try? unpack([0xdf, 0x00, 0x01, 0x00, 0x00] + payload(count: 0x1_0000))
+        XCTAssertEqual(unpacked, MessagePackValue.Map(map(count: 0x1_0000)))
     }
 }
