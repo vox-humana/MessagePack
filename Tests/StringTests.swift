@@ -1,19 +1,19 @@
 @testable import MessagePack
+@testable import C7
 import XCTest
-import Data
 
-func string(length: Int, repeatedValue: String = "*") -> String {
+func string(repeating: String = "*", length: Int = 1) -> String {
     var str = ""
-    str.reserveCapacity(length * repeatedValue.characters.count)
+    str.reserveCapacity(length * repeating.characters.count)
 
     for _ in 0..<length {
-        str.append(repeatedValue)
+        str.append(repeating)
     }
 
     return str
 }
 
-func data(string: String) -> ArraySlice<Byte> {
+func data(_ string: String) -> ArraySlice<Byte> {
     return string.nulTerminatedUTF8.dropLast()
 }
 
@@ -44,12 +44,12 @@ class StringTests: XCTestCase {
     }
 
     func testPackStr8() {
-        let str = string(0x20)
+        let str = string(length: 0x20)
         XCTAssertEqual(pack(.String(str)), Data([0xd9, 0x20]) + Data(data(str)))
     }
 
     func testUnpackStr8() {
-        let str = string(0x20)
+        let str = string(length: 0x20)
         let packed = [0xd9, 0x20] + data(str)
 
         let unpacked = try? unpack(packed)
@@ -57,12 +57,12 @@ class StringTests: XCTestCase {
     }
 
     func testPackStr16() {
-        let str = string(0x1000)
+        let str = string(length: 0x1000)
         XCTAssertEqual(pack(.String(str)), Data([0xda, 0x10, 0x00]) + Data(data(str)))
     }
 
     func testUnpackStr16() {
-        let str = string(0x1000)
+        let str = string(length: 0x1000)
         let packed = [0xda, 0x10, 0x00] + data(str)
 
         let unpacked = try? unpack(packed)
@@ -70,12 +70,12 @@ class StringTests: XCTestCase {
     }
 
     func testPackStr32() {
-        let str = string(0x10000)
+        let str = string(length: 0x10000)
         XCTAssertEqual(pack(.String(str)), Data([0xdb, 0x00, 0x01, 0x00, 0x00]) + Data(data(str)))
     }
 
     func testUnpackStr32() {
-        let str = string(0x10000)
+        let str = string(length: 0x10000)
         let packed = [0xdb, 0x00, 0x01, 0x00, 0x00] + data(str)
 
         let unpacked = try? unpack(packed)

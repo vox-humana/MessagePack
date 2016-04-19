@@ -1,6 +1,6 @@
 @testable import MessagePack
+@testable import C7
 import XCTest
-import Data
 
 class BinaryTests: XCTestCase {
     let payload: Data = [0x00, 0x01, 0x02, 0x03, 0x04]

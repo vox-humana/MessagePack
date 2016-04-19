@@ -1,6 +1,6 @@
 @testable import MessagePack
+@testable import C7
 import XCTest
-import Data
 
 class HashValueTests: XCTestCase {
     func testNilHashValue() {

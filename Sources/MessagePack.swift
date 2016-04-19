@@ -1,4 +1,4 @@
-import Data
+import C7
 
 /// The MessagePackValue enum encapsulates one of the following types: Nil, Bool, Int, UInt, Float, Double, String, Binary, Array, Map, and Extended.
 public enum MessagePackValue {
@@ -89,7 +89,7 @@ public enum MessagePackError: ErrorProtocol {
     case InvalidData
 }
 
-func dataDescription(data: Data) -> String {
+func dataDescription(_ data: Data) -> String {
     let bytes = data.map { byte -> String in
         let prefix: String
         if byte < 0x10 {

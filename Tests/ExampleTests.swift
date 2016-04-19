@@ -1,6 +1,14 @@
 @testable import MessagePack
+@testable import C7
 import XCTest
-import Data
+
+//FIXME: remove when C7 pr merged
+extension Data {
+    public init(start: UnsafePointer<Byte>, count: Int) {
+        let buffer = UnsafeBufferPointer(start: start, count: count);
+        self.bytes = Array(buffer)
+    }
+}
 
 class ExampleTests: XCTestCase {
     let example: MessagePackValue = ["compact": true, "schema": 0]
@@ -39,10 +47,11 @@ class ExampleTests: XCTestCase {
             XCTAssertEqual(error as? MessagePackError, .InsufficientData)
         }
     }
+    
 
     func testUnpackNSData() {
         let data = correctA.withUnsafeBufferPointer { buffer in
-            return Data(pointer: buffer.baseAddress, length: buffer.count)
+            return Data(start: buffer.baseAddress!, count: buffer.count)
         }
 
         let unpacked = try? unpack(data)
@@ -52,7 +61,7 @@ class ExampleTests: XCTestCase {
     func testUnpackInsufficientNSData() {
         let bytes: Data = [0x82, 0xa7, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x63, 0x74, 0xc3, 0xa6, 0x73, 0x63, 0x68, 0x65, 0x6d]
         let data = bytes.withUnsafeBufferPointer { buffer in
-            return Data(pointer: buffer.baseAddress, length: buffer.count)
+            return Data(start: buffer.baseAddress!, count: buffer.count)
         }
 
         do {

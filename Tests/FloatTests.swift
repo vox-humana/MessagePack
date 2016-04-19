@@ -1,6 +1,6 @@
 @testable import MessagePack
+@testable import C7
 import XCTest
-import Data
 
 class FloatTests: XCTestCase {
     let packed: Data = [0xca, 0x40, 0x48, 0xf5, 0xc3]
