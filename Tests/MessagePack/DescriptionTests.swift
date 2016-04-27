@@ -37,8 +37,8 @@ class DescriptionTests: XCTestCase {
     }
 
     func testStringDescription() {
-        XCTAssertEqual(MessagePackValue.String("").description, "\"\"".description)
-        XCTAssertEqual(MessagePackValue.String("MessagePack").description, "\"MessagePack\"".description)
+        XCTAssertEqual(MessagePackValue.String("").description, "\"\"")
+        XCTAssertEqual(MessagePackValue.String("MessagePack").description, "\"MessagePack\"")
     }
 
     func testBinaryDescription() {

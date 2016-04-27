@@ -8,7 +8,7 @@ class MessagePackTests: XCTestCase {
 }
 
 extension MessagePackTests {
-    static var allTests : [(String, MessagePackTests -> () throws -> Void)] {
+    static var allTests: [(String, MessagePackTests -> () throws -> Void)] {
         return [
            ("testReality", testReality),
         ]
