@@ -1,9 +1,8 @@
 @testable import MessagePack
-@testable import C7
 import XCTest
 
 class NilTests: XCTestCase {
-    let packed: Data = [0xc0]
+    let packed: [Byte] = [0xc0]
 
     func testLiteralConversion() {
         let implicitValue: MessagePackValue = nil

@@ -1,5 +1,4 @@
 @testable import MessagePack
-@testable import C7
 import XCTest
 
 class DoubleTests: XCTestCase {
@@ -8,7 +7,7 @@ class DoubleTests: XCTestCase {
         XCTAssertEqual(implicitValue, MessagePackValue.Double(3.14))
     }
 
-    let packed: Data = [0xcb, 0x40, 0x09, 0x1e, 0xb8, 0x51, 0xeb, 0x85, 0x1f]
+    let packed: [Byte] = [0xcb, 0x40, 0x09, 0x1e, 0xb8, 0x51, 0xeb, 0x85, 0x1f]
 
     func testPack() {
         XCTAssertEqual(pack(.Double(3.14)), packed)

@@ -1,5 +1,3 @@
-import C7
-
 /// Joins bytes from the generator to form an integer.
 ///
 /// - parameter generator: The input generator to unpack.
@@ -26,22 +24,17 @@ func unpackInteger<G: IteratorProtocol where G.Element == Byte>(with iterator: i
 ///
 /// - returns: A string representation of `size` bytes of data.
 func unpackString<G: IteratorProtocol where G.Element == Byte>(with iterator: inout G, length: Int) throws -> String {
-    var bytes = Data()
-    bytes.reserveCapacity(length)
+    var string = ""
+    var decoder = UTF8()
 
-    for _ in 0..<length {
-        if let byte = iterator.next() {
-            bytes.append(byte)
-        } else {
-            throw MessagePackError.InsufficientData
+    decode: for _ in 0..<length {
+        switch decoder.decode(&iterator) {
+        case .scalarValue(let char): string.append(char)
+        case .emptyInput: break decode
+        case .error: throw MessagePackError.InvalidData
         }
     }
-
-    if let result = try? String(data: bytes) {
-        return result
-    } else {
-        throw MessagePackError.InvalidData
-    }
+    return string
 }
 
 /// Joins bytes from the generator to form a data object.
@@ -50,8 +43,8 @@ func unpackString<G: IteratorProtocol where G.Element == Byte>(with iterator: in
 /// - parameter length: The length of the data.
 ///
 /// - returns: A subsection of data representing `size` bytes.
-func unpackData<G: IteratorProtocol where G.Element == Byte>(with iterator: inout G, length: Int) throws -> Data {
-    var data = Data()
+func unpackData<G: IteratorProtocol where G.Element == Byte>(with iterator: inout G, length: Int) throws -> [Byte] {
+    var data = [Byte]()
     data.reserveCapacity(length)
 
     for _ in 0..<length {
@@ -270,16 +263,6 @@ public func unpack<G: IteratorProtocol where G.Element == Byte>(with iterator: i
     } else {
         throw MessagePackError.InsufficientData
     }
-}
-
-/// Unpacks a data object in the form of `NSData` into a `MessagePackValue`.
-///
-/// - parameter data: The data to unpack.
-///
-/// - returns: The contained `MessagePackValue`.
-public func unpack(_ data: Data, compatibility: Bool = false) throws -> MessagePackValue {
-    var iterator = data.makeIterator()
-    return try unpack(with: &iterator, compatibility: compatibility)
 }
 
 /// Unpacks a data object in the form of a byte array into a `MessagePackValue`.

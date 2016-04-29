@@ -1,5 +1,3 @@
-import C7
-
 extension MessagePackValue {
     /// The number of elements in the `.Array` or `.Map`, `nil` otherwise.
     public var count: Swift.Int? {
@@ -129,7 +127,7 @@ extension MessagePackValue {
     }
 
     /// The contained data if `.Binary` or `.Extended`, `nil` otherwise.
-    public var dataValue: Data? {
+    public var dataValue: [Byte]? {
         switch self {
         case let .Binary(bytes):
             return bytes
@@ -141,7 +139,7 @@ extension MessagePackValue {
     }
 
     /// The contained type and data if Extended, `nil` otherwise.
-    public var extendedValue: (Int8, Data)? {
+    public var extendedValue: (Int8, [Byte])? {
         switch self {
         case let .Extended(type, data):
             return (type, data)

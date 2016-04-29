@@ -1,10 +1,9 @@
 @testable import MessagePack
-@testable import C7
 import XCTest
 
 class BinaryTests: XCTestCase {
-    let payload: Data = [0x00, 0x01, 0x02, 0x03, 0x04]
-    let packed: Data = [0xc4, 0x05, 0x00, 0x01, 0x02, 0x03, 0x04]
+    let payload: [Byte] = [0x00, 0x01, 0x02, 0x03, 0x04]
+    let packed: [Byte] = [0xc4, 0x05, 0x00, 0x01, 0x02, 0x03, 0x04]
 
     func testPack() {
         XCTAssertEqual(pack(.Binary(payload)), packed)
@@ -16,49 +15,49 @@ class BinaryTests: XCTestCase {
     }
 
     func testPackBin16() {
-        let value = Data(repeating: 0x00, count: 0xff)
+        let value = [Byte](repeating: 0x00, count: 0xff)
         let expectedPacked = [0xc4, 0xff] + value
         XCTAssertEqual(pack(.Binary(value)), expectedPacked)
     }
 
     func testUnpackBin16() {
-        let data = [0xc4, 0xff] + Data(repeating: 0x00, count: 0xff)
-        let value = Data(repeating: 0x00, count: 0xff)
+        let data = [0xc4, 0xff] + [Byte](repeating: 0x00, count: 0xff)
+        let value = [Byte](repeating: 0x00, count: 0xff)
 
         let unpacked = try? unpack(data)
         XCTAssertEqual(unpacked, MessagePackValue.Binary(value))
     }
 
     func testPackBin32() {
-        let value = Data(repeating: 0x00, count: 0x100)
+        let value = [Byte](repeating: 0x00, count: 0x100)
         let expectedPacked = [0xc5, 0x01, 0x00] + value
         XCTAssertEqual(pack(.Binary(value)), expectedPacked)
     }
 
     func testUnpackBin32() {
-        let data =  [0xc5, 0x01, 0x00] + Data(repeating: 0x00, count: 0x100)
-        let value = Data(repeating: 0x00, count: 0x100)
+        let data =  [0xc5, 0x01, 0x00] + [Byte](repeating: 0x00, count: 0x100)
+        let value = [Byte](repeating: 0x00, count: 0x100)
 
         let unpacked = try? unpack(data)
         XCTAssertEqual(unpacked, MessagePackValue.Binary(value))
     }
 
     func testPackBin64() {
-        let value = Data(repeating: 0x00, count: 0x1_0000)
+        let value = [Byte](repeating: 0x00, count: 0x1_0000)
         let expectedPacked = [0xc6, 0x00, 0x01, 0x00, 0x00] + value
         XCTAssertEqual(pack(.Binary(value)), expectedPacked)
     }
 
     func testUnpackBin64() {
-        let data = [0xc6, 0x00, 0x01, 0x00, 0x00] + Data(repeating: 0x00, count: 0x1_0000)
-        let value = Data(repeating: 0x00, count: 0x1_0000)
+        let data = [0xc6, 0x00, 0x01, 0x00, 0x00] + [Byte](repeating: 0x00, count: 0x1_0000)
+        let value = [Byte](repeating: 0x00, count: 0x1_0000)
 
         let unpacked = try? unpack(data)
         XCTAssertEqual(unpacked, MessagePackValue.Binary(value))
     }
 
     func testUnpackInsufficientData() {
-        let dataArray: [Data] = [
+        let dataArray: [[Byte]] = [
             // only type byte
             [0xc4], [0xc5], [0xc6],
 
@@ -78,15 +77,15 @@ class BinaryTests: XCTestCase {
     }
 
     func testUnpackFixstrWithCompatibility() {
-        let data: Data = [0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]
-        let packed: Data = [0xad] + data
+        let data: [Byte] = [0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]
+        let packed: [Byte] = [0xad] + data
 
         let unpacked = try? unpack(packed, compatibility: true)
         XCTAssertEqual(unpacked, MessagePackValue.Binary(data))
     }
 
     func testUnpackStr8WithCompatibility() {
-        let data = Data(repeating: 0x00, count: 0x20)
+        let data = [Byte](repeating: 0x00, count: 0x20)
         let packed = [0xd9, 0x20] + data
 
         let unpacked = try? unpack(packed, compatibility: true)
@@ -94,7 +93,7 @@ class BinaryTests: XCTestCase {
     }
 
     func testUnpackStr16WithCompatibility() {
-        let data = Data(repeating: 0x00, count: 0x1000)
+        let data = [Byte](repeating: 0x00, count: 0x1000)
         let packed = [0xda, 0x10, 0x00] + data
 
         let unpacked = try? unpack(packed, compatibility: true)
@@ -102,7 +101,7 @@ class BinaryTests: XCTestCase {
     }
 
     func testUnpackStr32WithCompatibility() {
-        let data = Data(repeating: 0x00, count: 0x10000)
+        let data = [Byte](repeating: 0x00, count: 0x10000)
         let packed = [0xdb, 0x00, 0x01, 0x00, 0x00] + data
 
         let unpacked = try? unpack(packed, compatibility: true)

@@ -1,6 +1,5 @@
 @testable import MessagePack
 import XCTest
-import C7
 
 func map(count: Int) -> [MessagePackValue : MessagePackValue] {
     var dict = [MessagePackValue : MessagePackValue]()
@@ -11,8 +10,8 @@ func map(count: Int) -> [MessagePackValue : MessagePackValue] {
     return dict
 }
 
-func payload(count: Int) -> Data {
-    var data = Data()
+func payload(count: Int) -> [Byte] {
+    var data = [Byte]()
     for i in 0..<count {
         data += pack(.Int(numericCast(i))) + pack(.Nil)
     }
@@ -20,7 +19,7 @@ func payload(count: Int) -> Data {
     return data
 }
 
-func testPackMap(count: Int, prefix: Data) {
+func testPackMap(count: Int, prefix: [Byte]) {
     let packed = pack(.Map(map(count: count)))
 
     var iterator = packed.makeIterator()
@@ -51,12 +50,12 @@ class MapTests: XCTestCase {
     }
 
     func testPackFixmap() {
-        let packed: Data = [0x81, 0xa1, 0x63, 0xa6, 0x63, 0x6f, 0x6f, 0x6b, 0x69, 0x65]
+        let packed: [Byte] = [0x81, 0xa1, 0x63, 0xa6, 0x63, 0x6f, 0x6f, 0x6b, 0x69, 0x65]
         XCTAssertEqual(pack(.Map([.String("c"): .String("cookie")])), packed)
     }
 
     func testUnpackFixmap() {
-        let packed: Data = [0x81, 0xa1, 0x63, 0xa6, 0x63, 0x6f, 0x6f, 0x6b, 0x69, 0x65]
+        let packed: [Byte] = [0x81, 0xa1, 0x63, 0xa6, 0x63, 0x6f, 0x6f, 0x6b, 0x69, 0x65]
 
         let unpacked = try? unpack(packed)
         XCTAssertEqual(unpacked, MessagePackValue.Map([.String("c"): .String("cookie")]))

@@ -1,5 +1,4 @@
 @testable import MessagePack
-@testable import C7
 import XCTest
 
 class ArrayTests: XCTestCase {
@@ -11,12 +10,12 @@ class ArrayTests: XCTestCase {
 
     func testPackFixarray() {
         let value: [MessagePackValue] = [.UInt(0), .UInt(1), .UInt(2), .UInt(3), .UInt(4)]
-        let packed: Data = [0x95, 0x00, 0x01, 0x02, 0x03, 0x04]
+        let packed: [Byte] = [0x95, 0x00, 0x01, 0x02, 0x03, 0x04]
         XCTAssertEqual(pack(.Array(value)), packed)
     }
 
     func testUnpackFixarray() {
-        let packed: Data = [0x95, 0x00, 0x01, 0x02, 0x03, 0x04]
+        let packed: [Byte] = [0x95, 0x00, 0x01, 0x02, 0x03, 0x04]
         let value: [MessagePackValue] = [.UInt(0), .UInt(1), .UInt(2), .UInt(3), .UInt(4)]
 
         let unpacked = try? unpack(packed)
@@ -25,12 +24,12 @@ class ArrayTests: XCTestCase {
 
     func testPackArray16() {
         let value = [MessagePackValue](repeating: nil, count: 16)
-        let packed = [0xdc, 0x00, 0x10] + Data(repeating: 0xc0, count: 16)
+        let packed = [0xdc, 0x00, 0x10] + [Byte](repeating: 0xc0, count: 16)
         XCTAssertEqual(pack(.Array(value)), packed)
     }
 
     func testUnpackArray16() {
-        let packed = [0xdc, 0x00, 0x10] + Data(repeating: 0xc0, count: 16)
+        let packed = [0xdc, 0x00, 0x10] + [Byte](repeating: 0xc0, count: 16)
         let value = [MessagePackValue](repeating: nil, count: 16)
 
         let unpacked = try? unpack(packed)
@@ -39,12 +38,12 @@ class ArrayTests: XCTestCase {
 
     func testPackArray32() {
         let value = [MessagePackValue](repeating: nil, count: 0x1_0000)
-        let packed = [0xdd, 0x00, 0x01, 0x00, 0x00] + Data(repeating: 0xc0, count: 0x1_0000)
+        let packed = [0xdd, 0x00, 0x01, 0x00, 0x00] + [Byte](repeating: 0xc0, count: 0x1_0000)
         XCTAssertEqual(pack(.Array(value)), packed)
     }
 
     func testUnpackArray32() {
-        let packed = [0xdd, 0x00, 0x01, 0x00, 0x00] + Data(repeating: 0xc0, count: 0x1_0000)
+        let packed = [0xdd, 0x00, 0x01, 0x00, 0x00] + [Byte](repeating: 0xc0, count: 0x1_0000)
         let value = [MessagePackValue](repeating: nil, count: 0x1_0000)
 
         let unpacked = try? unpack(packed)

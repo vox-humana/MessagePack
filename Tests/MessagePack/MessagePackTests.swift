@@ -1,5 +1,5 @@
-import XCTest
 @testable import MessagePack
+import XCTest
 
 class MessagePackTests: XCTestCase {
     func testReality() {

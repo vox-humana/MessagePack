@@ -1,9 +1,8 @@
 @testable import MessagePack
-@testable import C7
 import XCTest
 
 class FalseTests: XCTestCase {
-    let packed: Data = [0xc2]
+    let packed: [Byte] = [0xc2]
 
     func testLiteralConversion() {
         let implicitValue: MessagePackValue = false

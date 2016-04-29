@@ -1,5 +1,4 @@
 @testable import MessagePack
-@testable import C7
 import XCTest
 
 class ConvenienceInitializersTests: XCTestCase {
@@ -54,7 +53,7 @@ class ConvenienceInitializersTests: XCTestCase {
     }
 
     func testBinary() {
-        let data: Data = [0x00, 0x01, 0x02, 0x03, 0x04]
+        let data: [Byte] = [0x00, 0x01, 0x02, 0x03, 0x04]
         XCTAssertEqual(MessagePackValue(data), MessagePackValue.Binary([0x00, 0x01, 0x02, 0x03, 0x04]))
     }
 }

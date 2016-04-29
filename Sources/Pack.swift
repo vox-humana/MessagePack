@@ -1,17 +1,15 @@
-import C7
-
 /// Packs an integer into a byte array.
 ///
 /// - parameter value: The integer to split.
 /// - parameter parts: The number of bytes into which to split.
 ///
 /// - returns: An byte array representation.
-func packInteger(_ value: UInt64, parts: Int) -> Data {
+func packInteger(_ value: UInt64, parts: Int) -> [Byte] {
     precondition(parts > 0)
     let bytes = stride(from: (8 * (parts - 1)), through: 0, by: -8).map { shift in
         return Byte(truncatingBitPattern: value >> numericCast(shift))
     }
-    return Data(bytes)
+    return [Byte](bytes)
 }
 
 /// Packs an unsigned integer into an array of bytes.
@@ -19,7 +17,7 @@ func packInteger(_ value: UInt64, parts: Int) -> Data {
 /// - parameter value: The value to encode
 ///
 /// - returns: A MessagePack byte representation.
-func packPositiveInteger(_ value: UInt64) -> Data {
+func packPositiveInteger(_ value: UInt64) -> [Byte] {
     switch value {
     case let value where value <= 0x7f:
         return [Byte(truncatingBitPattern: value)]
@@ -39,7 +37,7 @@ func packPositiveInteger(_ value: UInt64) -> Data {
 /// - parameter value: The value to encode
 ///
 /// - returns: A MessagePack byte representation.
-func packNegativeInteger(_ value: Int64) -> Data {
+func packNegativeInteger(_ value: Int64) -> [Byte] {
     precondition(value < 0)
 
     switch value {
@@ -64,7 +62,7 @@ func packNegativeInteger(_ value: Int64) -> Data {
 /// - parameter value: The value to encode
 ///
 /// - returns: A MessagePack byte representation.
-public func pack(_ value: MessagePackValue) -> Data {
+public func pack(_ value: MessagePackValue) -> [Byte] {
     switch value {
     case .Nil:
         return [0xc0]
@@ -95,7 +93,7 @@ public func pack(_ value: MessagePackValue) -> Data {
         let count = UInt32(utf8.count)
         precondition(count <= 0xffff_ffff)
 
-        let prefix: Data
+        let prefix: [Byte]
         switch count {
         case let count where count <= 0x19:
             prefix = [0xa0 | numericCast(count)]
@@ -107,13 +105,13 @@ public func pack(_ value: MessagePackValue) -> Data {
             prefix = [0xdb] + packInteger(numericCast(count), parts: 4)
         }
 
-        return prefix + Data(utf8)
+        return prefix + utf8
 
     case let .Binary(data):
         let count = UInt32(data.count)
         precondition(count <= 0xffff_ffff)
 
-        let prefix: Data
+        let prefix: [Byte]
         switch count {
         case let count where count <= 0xff:
             prefix = [0xc4, numericCast(count)]
@@ -129,7 +127,7 @@ public func pack(_ value: MessagePackValue) -> Data {
         let count = UInt32(array.count)
         precondition(count <= 0xffff_ffff)
 
-        let prefix: Data
+        let prefix: [Byte]
         switch count {
         case let count where count <= 0xe:
             prefix = [0x90 | numericCast(count)]
@@ -139,13 +137,13 @@ public func pack(_ value: MessagePackValue) -> Data {
             prefix = [0xdd] + packInteger(numericCast(count), parts: 4)
         }
 
-        return prefix + Data(array.flatMap(pack))
+        return prefix + array.flatMap(pack)
 
     case let .Map(dict):
         let count = UInt32(dict.count)
         precondition(count < 0xffff_ffff)
 
-        let prefix: Data
+        let prefix: [Byte]
         switch count {
         case let count where count <= 0xe:
             prefix = [0x80 | numericCast(count)]
@@ -155,14 +153,14 @@ public func pack(_ value: MessagePackValue) -> Data {
             prefix = [0xdf] + packInteger(numericCast(count), parts: 4)
         }
 
-        return prefix + Data(dict.flatMap { [$0, $1] }.flatMap(pack))
+        return prefix + dict.flatMap { [$0, $1] }.flatMap(pack)
 
     case let .Extended(type, data):
         let count = UInt32(data.count)
         precondition(count <= 0xffff_ffff)
 
         let unsignedType = UInt8(bitPattern: type)
-        let prefix: Data
+        let prefix: [Byte]
         switch count {
         case 1:
             prefix = [0xd4, unsignedType]
@@ -191,7 +189,7 @@ public func pack(_ value: MessagePackValue) -> Data {
 /// - parameter array: The array to encode
 ///
 /// - returns: A MessagePack byte representation.
-public func pack(_ array: [MessagePackValue]) -> Data {
+public func pack(_ array: [MessagePackValue]) -> [Byte] {
     return pack(.Array(array))
 }
 
@@ -200,7 +198,7 @@ public func pack(_ array: [MessagePackValue]) -> Data {
 /// - parameter dictionary: The dictionary to encode
 ///
 /// - returns: A MessagePack byte representation.
-public func pack(_ dictionary: [MessagePackValue : MessagePackValue]) -> Data {
+public func pack(_ dictionary: [MessagePackValue : MessagePackValue]) -> [Byte] {
     return pack(.Map(dictionary))
 }
 
@@ -210,6 +208,6 @@ public func pack(_ dictionary: [MessagePackValue : MessagePackValue]) -> Data {
 /// - parameter data: The data to encode
 ///
 /// - returns: A MessagePack byte representation.
-public func pack(type: Int8, data: Data) -> Data {
+public func pack(type: Int8, data: [Byte]) -> [Byte] {
     return pack(.Extended(type, data))
 }

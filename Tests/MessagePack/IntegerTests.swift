@@ -1,5 +1,4 @@
 @testable import MessagePack
-@testable import C7
 import XCTest
 
 class IntegerTests: XCTestCase {
@@ -116,7 +115,7 @@ class IntegerTests: XCTestCase {
     }
 
     func testUnpackInsufficientData() {
-        let dataArray: [Data] = [[0xd0], [0xd1], [0xd2], [0xd3], [0xd4]]
+        let dataArray: [[Byte]] = [[0xd0], [0xd1], [0xd2], [0xd3], [0xd4]]
         for data in dataArray {
             do {
                 try unpack(data)

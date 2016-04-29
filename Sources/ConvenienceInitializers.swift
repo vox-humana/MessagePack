@@ -1,5 +1,3 @@
-import C7
-
 extension MessagePackValue {
     public init() {
         self = .Nil
@@ -37,7 +35,7 @@ extension MessagePackValue {
         self = .Map(value)
     }
 
-    public init(_ value: Data) {
+    public init(_ value: [Byte]) {
         self = .Binary(value)
     }
 }

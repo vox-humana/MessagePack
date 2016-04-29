@@ -1,5 +1,4 @@
 @testable import MessagePack
-@testable import C7
 import XCTest
 
 class DescriptionTests: XCTestCase {

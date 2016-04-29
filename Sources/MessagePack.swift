@@ -1,4 +1,4 @@
-import C7
+public typealias Byte = UInt8
 
 /// The MessagePackValue enum encapsulates one of the following types: Nil, Bool, Int, UInt, Float, Double, String, Binary, Array, Map, and Extended.
 public enum MessagePackValue {
@@ -9,10 +9,10 @@ public enum MessagePackValue {
     case Float(Swift.Float)
     case Double(Swift.Double)
     case String(Swift.String)
-    case Binary(Data)
+    case Binary([Byte])
     case Array([MessagePackValue])
     case Map([MessagePackValue : MessagePackValue])
-    case Extended(Int8, Data)
+    case Extended(Int8, [Byte])
 }
 
 extension MessagePackValue: Hashable {
@@ -89,7 +89,7 @@ public enum MessagePackError: ErrorProtocol {
     case InvalidData
 }
 
-func dataDescription(_ data: Data) -> String {
+func dataDescription(_ data: [Byte]) -> String {
     let bytes = data.map { byte -> String in
         let prefix: String
         if byte < 0x10 {
